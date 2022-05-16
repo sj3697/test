@@ -114,7 +114,7 @@ def main(sc,sqlcontext):
     df_2020_03 = df_2020_03.groupBy('cbg').sum('dis', 'count')
     df_2020_03 = df_2020_03.withColumn('2020_03', (df_2020_03[1]/df_2020_03[2])) \
         .select('cbg', '2020_03')
-    final = final.join(df_2020_03, on = "cbg", how='full').cache()
+    final = final.join(df_2020_03, on = "cbg", how='full')
 
     output2020_10 = sc.textFile('/tmp/bdm/weekly-patterns-nyc-2019-2020') \
               .mapPartitionsWithIndex(readPatterns_2020_10)
@@ -124,7 +124,7 @@ def main(sc,sqlcontext):
     df_2020_10 = df_2020_10.groupBy('cbg').sum('dis', 'count')
     df_2020_10 = df_2020_10.withColumn('2020_10', (df_2020_10[1]/df_2020_10[2])) \
         .select('cbg', '2020_10')
-    final = final.join(df_2020_10, on = "cbg", how='full').cache()
+    final = final.join(df_2020_10, on = "cbg", how='full')
 
     final = final.orderBy('cbg', ascending=True)
     
